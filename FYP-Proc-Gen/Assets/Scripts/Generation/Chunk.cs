@@ -93,9 +93,7 @@ public class Chunk : MonoBehaviour
                 i++;
             }
         }
-        int first = Random.Range(0, vertices.Length);
-        int second = Random.Range(0, vertices.Length);
-        int third = Random.Range(0, vertices.Length);
+        
         
 
     }

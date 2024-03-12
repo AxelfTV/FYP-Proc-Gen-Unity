@@ -56,6 +56,8 @@ public class NoiseMap
         return noiseSum;
         
     }
+    
+    
     float GetBiomeNoise(float x, float z, Biome tempBiome)
     {
         float amplitude = 1;

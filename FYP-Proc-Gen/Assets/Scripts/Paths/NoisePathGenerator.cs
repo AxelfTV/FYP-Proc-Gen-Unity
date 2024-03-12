@@ -113,14 +113,47 @@ public static class NoisePathGenerator
             parent = currentNode,
             Cost = Mathf.Abs(newHeight * mult)
         });
+        newPos = currentNode.position + Vector2Int.down + Vector2Int.left;
+        newHeight = MapManager.noiseMap.GetNoise(newPos.x, newPos.y);
+        nodes.Add(new Node
+        {
+            position = newPos,
+            height = newHeight,
+            parent = currentNode,
+            Cost = Mathf.Abs(newHeight * mult) * 1.414f
+        });
+        newPos = currentNode.position + Vector2Int.down + Vector2Int.right;
+        newHeight = MapManager.noiseMap.GetNoise(newPos.x, newPos.y);
+        nodes.Add(new Node
+        {
+            position = newPos,
+            height = newHeight,
+            parent = currentNode,
+            Cost = Mathf.Abs(newHeight * mult) * 1.414f
+        });
+        newPos = currentNode.position + Vector2Int.up + Vector2Int.left;
+        newHeight = MapManager.noiseMap.GetNoise(newPos.x, newPos.y);
+        nodes.Add(new Node
+        {
+            position = newPos,
+            height = newHeight,
+            parent = currentNode,
+            Cost = Mathf.Abs(newHeight * mult) * 1.414f
+        });
+        newPos = currentNode.position + Vector2Int.up + Vector2Int.right;
+        newHeight = MapManager.noiseMap.GetNoise(newPos.x, newPos.y);
+        nodes.Add(new Node
+        {
+            position = newPos,
+            height = newHeight,
+            parent = currentNode,
+            Cost = Mathf.Abs(newHeight * mult) * 1.414f
+        });
 
 
 
 
 
-        
-
-        
         nodes.ForEach(node => node.SetDistance(targetNode.position.x, targetNode.position.y));
         return nodes;
     }

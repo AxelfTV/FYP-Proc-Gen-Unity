@@ -34,9 +34,9 @@ public class MapManager : MonoBehaviour
     }
     void Start()
     {
-        locations.Add(new TestLocation(new Vector2Int(100, 100), test));
-        locations.Add(new Road(new Vector2Int(50, 50), new Vector2Int(100, 100), Color.gray));
-        
+        //locations.Add(new TestLocation(new Vector2Int(100, 100), test));
+        //locations.Add(new Road(new Vector2Int(50, 50), new Vector2Int(100, 100), Color.gray));
+        locations.Add(new River(new Vector2Int(200, 200), new Vector2Int(100, 100)));
         StartCoroutine(GenerateChunk(Vector2Int.zero));
 
         
