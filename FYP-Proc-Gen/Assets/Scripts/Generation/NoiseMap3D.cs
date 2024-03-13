@@ -15,7 +15,7 @@ public class NoiseMap3D
     }
     public float GetNoise(float x, float y, float z)
     {
-        return PerlinNoise3D(x/1000f + seed.x, y/10f, z/1000f + seed.z) * 2f -1f;
+        return PerlinNoise3D(x/25f + seed.x, y/25f, z/25f + seed.z) * 2f -1f;
     }
     public static float PerlinNoise3D(float x, float y, float z)
     {

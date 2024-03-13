@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class SquaresRenderer : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class SquaresRenderer : MonoBehaviour
     public List<Biome> biomes;
     Seed seed;
 
+    public int size = 20;
+    float noiseScale = 0.9f;
     void Start()
     {
         mesh = new Mesh();
@@ -32,7 +35,7 @@ public class SquaresRenderer : MonoBehaviour
         triangles = new List<int>();
         vertices = new List<Vector3>();
 
-        seed = new Seed();
+        seed = CaveMapManager.seed;
         noiseMap = new NoiseMap(seed, biomes);
         noiseMap3D = new NoiseMap3D(seed);
 
@@ -54,7 +57,7 @@ public class SquaresRenderer : MonoBehaviour
             triangles = new List<int>();
             vertices = new List<Vector3>();
 
-            seed = new Seed();
+            seed = CaveMapManager.seed;
             noiseMap = new NoiseMap(seed, biomes);
             noiseMap3D = new NoiseMap3D(seed);
 
@@ -65,8 +68,8 @@ public class SquaresRenderer : MonoBehaviour
     }
     void CreateHeights()
     {
-        int xSize = 10;
-        int zSize = 10;
+        int xSize = size;
+        int zSize = size;
 
         
         
@@ -111,13 +114,17 @@ public class SquaresRenderer : MonoBehaviour
                 int y = 0;
                 while (vertHeights.TryGetValue(new Vector3Int(x,y,z), out h))
                 {
-                    float v1 = h;
-                    float v2 = (vertHeights.TryGetValue(new Vector3Int(x + 1, y, z), out h)) ? h : v1;
-                    float v3 = (vertHeights.TryGetValue(new Vector3Int(x, y, z + 1), out h)) ? h : v1;
-                    float v4 = (vertHeights.TryGetValue(new Vector3Int(x + 1, y, z + 1), out h)) ? h : v1;
-
-                    squares.Add(new Vector3Int(x, y, z), new Square(new Vector3Int(x, y, z), v1, v2, v3, v4));
+                    int curY = y;
                     y++;
+                    float v1 = h;
+                    if (!vertHeights.TryGetValue(new Vector3Int(x + 1, curY, z), out h)) continue;
+                    float v2 = h;
+                    if (!vertHeights.TryGetValue(new Vector3Int(x, curY, z + 1), out h)) continue;
+                    float v3 = h;
+                    if (!vertHeights.TryGetValue(new Vector3Int(x + 1, curY, z + 1), out h)) continue;
+                    float v4 = h;
+                    if (Mathf.Abs(v2 - v1) > 3 || Mathf.Abs(v3 - v1) > 3 || Mathf.Abs(v4 - v1) > 3) continue;
+                    squares.Add(new Vector3Int(x, curY, z), new Square(new Vector3Int(x, curY, z), v1, v2, v3, v4));
                 }
 
 
@@ -125,9 +132,10 @@ public class SquaresRenderer : MonoBehaviour
             }
         }
     }
+    
     void SquareCheck(int x, int z)
     {
-        float prevY = noiseMap3D.GetNoise(x,0,z);
+        float prevY = noiseMap3D.GetNoise(x * noiseScale, 0, z * noiseScale);
         float currentY = 0;
         int y = 0;
         if (prevY <= 0)
@@ -135,14 +143,15 @@ public class SquaresRenderer : MonoBehaviour
             vertHeights.Add(new Vector3Int(x, 0, z), 0);
             y++;
         }
-        for(int i = 1; i < 10; i++)
+        for(int i = 1; i < size; i++)
         {
-            currentY = noiseMap3D.GetNoise(x, i, z);
+            currentY = noiseMap3D.GetNoise(x * noiseScale, i * noiseScale, z * noiseScale);
             if (currentY * prevY < 0)
             {
                 vertHeights.Add(new Vector3Int(x, y, z), i - 0.5f);
                 y++;
             }
+            prevY = currentY;
         }
 
     }  
