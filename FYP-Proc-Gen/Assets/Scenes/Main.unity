@@ -271,6 +271,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f7248df14f9af5c438b23c0fc79dae05, type: 2}
   player: {fileID: 1782331831}
   test: {fileID: 4470068468865549885, guid: 06573cc19fb2e4a479092a9b4687b26c, type: 3}
+  water: {fileID: 1284474147465154267, guid: f8cf25bf3e578c0488a7282329e99cf7, type: 3}
 --- !u!4 &1782331831 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4607699713451777648, guid: 927c6652399c041468cb785db272b59b, type: 3}

@@ -5,17 +5,26 @@ using UnityEngine;
 public class River : Location
 {
     public Vector2Int end;
-
+    GameObject water;
     
-    public River(Vector2Int start, Vector2Int end)
+    public River(Vector2Int start, Vector2Int end, GameObject water)
     {
         centre = start;
         this.end = end;
+        this.water = water;
         ConstructLocation();
     }
     protected override void CreateShape()
     {
+        objects = new List<GameObject>();
         vertices = NoisePathGenerator.GeneratePath(centre, end);
+        for(int i = 0; i< vertices.Count; i++)
+        {
+            if(i % 10 == 0) objects.Add(water);
+            else if (i == vertices.Count - 1) objects.Add(water);
+            else objects.Add(null);
+
+        }
     }
     protected override void SetValues()
     {

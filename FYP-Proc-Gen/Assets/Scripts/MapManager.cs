@@ -22,6 +22,7 @@ public class MapManager : MonoBehaviour
     List<Location> locations;
 
     public GameObject test;
+    public GameObject water;
     void Awake()
     {
         xSize = size;
@@ -36,7 +37,7 @@ public class MapManager : MonoBehaviour
     {
         //locations.Add(new TestLocation(new Vector2Int(100, 100), test));
         //locations.Add(new Road(new Vector2Int(50, 50), new Vector2Int(100, 100), Color.gray));
-        locations.Add(new River(new Vector2Int(200, 200), new Vector2Int(100, 100)));
+        locations.Add(new River(new Vector2Int(200, 200), new Vector2Int(100, 100), water));
         StartCoroutine(GenerateChunk(Vector2Int.zero));
 
         
