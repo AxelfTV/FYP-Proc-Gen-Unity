@@ -271,6 +271,7 @@ public class CaveMapManager : MonoBehaviour
     [SerializeField] int chunkSize;
     [SerializeField] int chunkNum;
     [SerializeField] GameObject player;
+    [SerializeField] GameObject blueLight;
     // Start is called before the first frame update
     void Awake()
     {
@@ -293,7 +294,9 @@ public class CaveMapManager : MonoBehaviour
                 for(int z = 0; z < chunkNum; z++)
                 {
                     yield return 0;
-                    Instantiate(chunk, new Vector3(x * size, y * size, z * size), Quaternion.identity);
+                    Vector3 pos = new Vector3(x * size, y * size - 4, z * size);
+                    Instantiate(chunk, pos, Quaternion.identity);
+                    if(noiseMap.GetNoise(pos) < 0.5f) Instantiate(blueLight, pos, Quaternion.identity);
                 }
             }
         }
