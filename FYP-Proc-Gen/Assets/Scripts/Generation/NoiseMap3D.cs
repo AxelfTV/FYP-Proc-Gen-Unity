@@ -6,10 +6,10 @@ using UnityEngine.UIElements;
 public class NoiseMap3D
 {
     Seed seed;
-    float scale = 30f;
+    float scale = 20f;
     Vector3 centre;
     float boundary = 50;
-    float middle = 5;
+    float middle = 15;
     public NoiseMap3D(Seed seed, Vector3 centre)
     {
         this.seed = seed;

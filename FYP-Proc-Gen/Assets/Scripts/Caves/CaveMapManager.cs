@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CaveMapManager : MonoBehaviour
 {
@@ -296,13 +297,14 @@ public class CaveMapManager : MonoBehaviour
                 }
             }
         }
+        player.GetComponent<SC_SpaceshipController>().loaded = true;
     }
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            RefreshSeed();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
     public static void RefreshSeed()

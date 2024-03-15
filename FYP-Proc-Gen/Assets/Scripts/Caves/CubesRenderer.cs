@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Analytics;
-using static UnityEditor.PlayerSettings;
+
 
 public class CubesRenderer : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class CubesRenderer : MonoBehaviour
     Dictionary<Vector3Int, Cube> cubes;
     Dictionary<Vector3Int, float> vertVals;
 
-    public int size;
+    int size;
     Vector3Int chunkPos;
     // Start is called before the first frame update
     void Start()
@@ -27,20 +27,8 @@ public class CubesRenderer : MonoBehaviour
         CreateMesh();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            StartCoroutine(Refresh());
-            
-        }        
-    }
-    IEnumerator Refresh()
-    {
-        yield return new WaitForEndOfFrame();
-        Start();
-    }
+    
+    
     
     void CreateVertVals()
     {
