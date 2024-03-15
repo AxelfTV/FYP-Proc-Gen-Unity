@@ -281,7 +281,7 @@ public class CaveMapManager : MonoBehaviour
     }
     private void Start()
     {
-        player.transform.position = new Vector3(chunkSize * (chunkNum / 2f), chunkSize * (chunkNum / 2f), chunkSize * (chunkNum / 2f));
+        player.transform.position = new Vector3(chunkSize * (chunkNum / 2f), chunkSize * (chunkNum / 2f)-4, chunkSize * (chunkNum / 2f));
         StartCoroutine(Generate());
     }
     IEnumerator Generate()
@@ -294,7 +294,7 @@ public class CaveMapManager : MonoBehaviour
                 for(int z = 0; z < chunkNum; z++)
                 {
                     yield return 0;
-                    Vector3 pos = new Vector3(x * size, y * size - 4, z * size);
+                    Vector3 pos = new Vector3(x * size, y * size, z * size);
                     Instantiate(chunk, pos, Quaternion.identity);
                     if(noiseMap.GetNoise(pos) < 0.5f) Instantiate(blueLight, pos, Quaternion.identity);
                 }

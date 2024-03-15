@@ -17,8 +17,8 @@ public class NoiseMap3D
     }
     public float GetNoise(Vector3 position)
     {
-        if ((position - centre).magnitude < middle) return 0;
-        if ((position - centre).magnitude > boundary) return 1;
+        if ((position - centre).magnitude < middle) return 0.4f;
+        if ((position - centre).magnitude > boundary) return 0.6f;
         return PerlinNoise3D((position.x * 0.9f)/scale + seed.x, (position.y * 0.9f)/scale, (position.z * 0.9f) / scale + seed.z);
     }
     public float GetNoise(float x, float y, float z)
