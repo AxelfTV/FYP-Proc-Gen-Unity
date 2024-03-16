@@ -6,9 +6,9 @@ using UnityEngine.UIElements;
 public class NoiseMap3D
 {
     Seed seed;
-    float scale = 20f;
+    float scale = 35f;
     Vector3 centre;
-    float boundary = 50;
+    float boundary = 80;
     float middle = 15;
     public NoiseMap3D(Seed seed, Vector3 centre)
     {

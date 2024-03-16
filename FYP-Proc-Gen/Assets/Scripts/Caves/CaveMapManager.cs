@@ -295,8 +295,18 @@ public class CaveMapManager : MonoBehaviour
                 {
                     yield return 0;
                     Vector3 pos = new Vector3(x * size, y * size, z * size);
-                    Instantiate(chunk, pos, Quaternion.identity);
-                    if(noiseMap.GetNoise(pos) < 0.5f) Instantiate(blueLight, pos, Quaternion.identity);
+                    Instantiate(chunk, pos, Quaternion.identity);                   
+                }
+            }
+        }
+        for (int x = 0; x < chunkNum; x++)
+        {
+            for (int y = 0; y < chunkNum; y++)
+            {
+                for (int z = 0; z < chunkNum; z++)
+                {
+                    Vector3 pos = new Vector3(x * size + Random.Range(0,size), y * size + Random.Range(0, size), z * size + Random.Range(0, size));
+                    if (noiseMap.GetNoise(pos) < 0.5f) Instantiate(blueLight, pos, Quaternion.identity);
                 }
             }
         }
