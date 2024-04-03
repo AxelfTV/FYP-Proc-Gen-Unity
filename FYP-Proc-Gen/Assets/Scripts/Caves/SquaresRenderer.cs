@@ -47,7 +47,7 @@ public class SquaresRenderer : MonoBehaviour
         vertices = new List<Vector3>();
 
         seed = CaveMapManager.seed;
-        noiseMap = new NoiseMap(seed, biomes);
+        
         noiseMap3D = new NoiseMap3D(seed, Vector3.zero);
 
         CreateHeights();
@@ -74,7 +74,7 @@ public class SquaresRenderer : MonoBehaviour
             vertices = new List<Vector3>();
 
             seed = CaveMapManager.seed;
-            noiseMap = new NoiseMap(seed, biomes);
+            
             noiseMap3D = new NoiseMap3D(seed, Vector3.zero);
 
             CreateHeights();

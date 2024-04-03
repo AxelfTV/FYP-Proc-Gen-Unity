@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BiomeCell : MonoBehaviour
+public class BiomeCell
 {
     public int octaves = 10;
     public float lacunarity;
@@ -17,15 +17,18 @@ public class BiomeCell : MonoBehaviour
     public List<GameObject> foliage;
     public float foliageMult;
 
-    public BiomeCell(float lacunarity, float persistance, float scale, float mult, float heightOffset)
+    public BiomeCell(Vector2Int position, Biome biome)
     {
-        this.lacunarity = lacunarity;
-        this.persistance = persistance;
-        this.scale = scale;
-        this.mult = mult;
-        this.heightOffset = heightOffset;
-        this.gradient = new Gradient();
-        x = 0;
-        z = 0;
+        this.octaves = biome.octaves;
+        this.lacunarity = biome.lacunarity;
+        this.persistance = biome.persistance;
+        this.scale = biome.scale;
+        this.mult = biome.mult;
+        this.heightOffset = biome.heightOffset;
+        this.gradient = biome.gradient;
+        this.foliage = biome.foliage;
+        this.foliageMult = biome.foliageMult;
+        x = position.x;
+        z = position.y;
     }
 }

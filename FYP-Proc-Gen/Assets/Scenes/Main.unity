@@ -264,11 +264,12 @@ MonoBehaviour:
   size: 30
   chunkObj: {fileID: 3809432927094027, guid: b693058a7e63e0c4688f3dbedbcbaa7e, type: 3}
   biomes:
+  - {fileID: 11400000, guid: 3282de92a9d0efa47b6f703c1345b23d, type: 2}
+  - {fileID: 11400000, guid: f7248df14f9af5c438b23c0fc79dae05, type: 2}
   - {fileID: 11400000, guid: e06ac91f7760baa439ee997542b7337f, type: 2}
   - {fileID: 11400000, guid: 6c9116d293b434040bf8578c89736bcd, type: 2}
-  - {fileID: 11400000, guid: 0a286a08d7a14a34ab69c54d52a462ef, type: 2}
   - {fileID: 11400000, guid: d44c043cdde381a4c8b77a81c59cb446, type: 2}
-  - {fileID: 11400000, guid: f7248df14f9af5c438b23c0fc79dae05, type: 2}
+  - {fileID: 11400000, guid: 0a286a08d7a14a34ab69c54d52a462ef, type: 2}
   player: {fileID: 1782331831}
   test: {fileID: 4470068468865549885, guid: 06573cc19fb2e4a479092a9b4687b26c, type: 3}
   water: {fileID: 1284474147465154267, guid: f8cf25bf3e578c0488a7282329e99cf7, type: 3}

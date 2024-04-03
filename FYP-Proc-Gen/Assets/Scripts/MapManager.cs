@@ -10,6 +10,8 @@ public class MapManager : MonoBehaviour
     public static int xSize;
     public static int zSize;
 
+    public static Dictionary<BiomeType, Biome> biomeData;
+
     [SerializeField] int size;
     [SerializeField] GameObject chunkObj;
     [SerializeField] List<Biome> biomes;
@@ -25,10 +27,19 @@ public class MapManager : MonoBehaviour
     public GameObject water;
     void Awake()
     {
+        biomeData = new Dictionary<BiomeType, Biome>()
+        {
+            {BiomeType.ocean, biomes[0] },
+            {BiomeType.forest, biomes[1] },
+            {BiomeType.plains, biomes[2] },
+            {BiomeType.desert, biomes[3] },
+            {BiomeType.islands, biomes[4] },
+            {BiomeType.mountains, biomes[5] },
+        };
         xSize = size;
         zSize = size;
         seed = new Seed();
-        noiseMap = new NoiseMap(seed, biomes);
+        noiseMap = new NoiseMap(seed, BiomesGenerator.GetBiomes());
         chunks = new Dictionary<Vector2Int, Chunk>();
         roads = new List<Road>();
         locations = new List<Location>();
@@ -37,7 +48,7 @@ public class MapManager : MonoBehaviour
     {
         //locations.Add(new TestLocation(new Vector2Int(100, 100), test));
         //locations.Add(new Road(new Vector2Int(50, 50), new Vector2Int(100, 100), Color.gray));
-        locations.Add(new River(new Vector2Int(200, 200), new Vector2Int(100, 100), water));
+        //locations.Add(new River(new Vector2Int(200, 200), new Vector2Int(100, 100), water));
         StartCoroutine(GenerateChunk(Vector2Int.zero));
 
         

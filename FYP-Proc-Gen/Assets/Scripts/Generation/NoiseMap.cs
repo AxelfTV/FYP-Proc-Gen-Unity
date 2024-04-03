@@ -7,28 +7,27 @@ using UnityEngine;
 public class NoiseMap
 {
     Seed seed;
-    List<Biome> biomes;
+    Dictionary<Vector2Int, BiomeCell> biomeDict;
 
-    float interpDist = 50;
-    public NoiseMap(Seed seed, List<Biome> biomes)
+    float interpDist = 40;
+    public NoiseMap(Seed seed, Dictionary<Vector2Int, BiomeCell> biomes)
     {
         this.seed = seed;
-        this.biomes = biomes;
+        this.biomeDict = biomes;
         
-        SetBiomeLocations();
+        
         
     }
     
     public float GetNoise(float x, float z)
     {
-        Biome tempBiome = FindClosestBiome(x,z);
-
-        Biome closestBiome = FindClosestBiome(x, z);
+        List<BiomeCell> biomes = GetCurrentBiomes(x, z);
+        BiomeCell closestBiome = FindClosestBiome(x, z,biomes);
         float closestDist = GetDist(x, z, closestBiome);
 
-        List<Biome> closeBiomes = new List<Biome>();
+        List<BiomeCell> closeBiomes = new List<BiomeCell>();
         List<float> floats = new List<float>();
-        foreach (Biome biome in biomes)
+        foreach (BiomeCell biome in biomes)
         {
             float distDif = Mathf.Abs(GetDist(x, z, biome) - closestDist);
             if (distDif < interpDist)
@@ -37,7 +36,7 @@ public class NoiseMap
                 floats.Add(distDif);
             }
         }
-        if (closeBiomes.Count <= 1) return GetBiomeNoise(x, z, tempBiome);
+        if (closeBiomes.Count <= 1) return GetBiomeNoise(x, z, closestBiome);
         
         
         float noiseSum = 0;
@@ -58,7 +57,7 @@ public class NoiseMap
     }
     
     
-    float GetBiomeNoise(float x, float z, Biome tempBiome)
+    float GetBiomeNoise(float x, float z, BiomeCell tempBiome)
     {
         float amplitude = 1;
         float frequency = 1;
@@ -77,12 +76,13 @@ public class NoiseMap
     }
     public Color GetColor(Vector3 vert)
     {
-        Biome closestBiome = FindClosestBiome(vert.x, vert.z);
+        List<BiomeCell> biomes = GetCurrentBiomes(vert.x, vert.z);
+        BiomeCell closestBiome = FindClosestBiome(vert.x, vert.z, biomes);
         float closestDist = GetDist(vert.x, vert.z, closestBiome);
 
-        List<Biome> closeBiomes = new List<Biome>();
+        List<BiomeCell> closeBiomes = new List<BiomeCell>();
         List<float> floats = new List<float>();
-        foreach (Biome biome in biomes)
+        foreach (BiomeCell biome in biomes)
         {
             float distDif = Mathf.Abs(GetDist(vert.x, vert.z, biome) - closestDist);
             if (distDif < interpDist)
@@ -109,7 +109,7 @@ public class NoiseMap
 
         return noiseSum;
     }
-    public Color GetBiomeColor(float x, float z, Biome biome)
+    public Color GetBiomeColor(float x, float z, BiomeCell biome)
     {
         float sampleX = x / biome.scale;
         float sampleZ = z / biome.scale;
@@ -121,7 +121,8 @@ public class NoiseMap
     }
     public GameObject GetPlant(Vector3 vert)
     {
-        Biome closestBiome = FindClosestBiome(vert.x, vert.z);
+        List<BiomeCell> biomes = GetCurrentBiomes(vert.x, vert.z);
+        BiomeCell closestBiome = FindClosestBiome(vert.x, vert.z, biomes);
 
         if(Random.Range(0f,1f) < closestBiome.foliageMult && closestBiome.foliage.Count > 0)
         {
@@ -130,36 +131,12 @@ public class NoiseMap
         else return null;
     }
     
-    void SetBiomeLocations()
+    
+    BiomeCell FindClosestBiome(float x, float z, List<BiomeCell> biomes)
     {
-        int radius = 200;
-
-        int i = 0;
-
-
-        foreach(Biome biome in biomes) 
-        {
-            if(i == 0)
-            {
-                biome.x = 100;
-                biome.z = 100;
-
-            }
-            else
-            {
-                biome.x = (int)(radius * Mathf.Cos((2 * i * Mathf.PI) / (biomes.Count-1))) + 100;
-                biome.z = (int)(radius * Mathf.Sin((2 * i * Mathf.PI) / (biomes.Count-1))) + 100;
-                
-            }
-            
-            i++;
-        }
-    }
-    Biome FindClosestBiome(float x, float z)
-    {
-        Biome closestBiome = null;
+        BiomeCell closestBiome = null;
         float dist = float.MaxValue;
-        foreach(Biome biome in biomes)
+        foreach(BiomeCell biome in biomes)
         {
             if(closestBiome != null)
             {
@@ -180,61 +157,33 @@ public class NoiseMap
         }
         return closestBiome;
     }
-    /*
-    Biome InterpolateBiomes(float x, float z)
+    List<BiomeCell> GetCurrentBiomes(float x, float y)
     {
-        Biome closestBiome = FindClosestBiome(x,z);
-        float closestDist = GetDist(x, z, closestBiome);
-        float interpDist = 30;
+        int size = BiomesGenerator.biomeSize;
+        int xIndex = (x >= 0) ? (int)(x / size) : (int)((x / size) - 1);
+        int yIndex = (y >= 0) ? (int)(y / size) : (int)((y / size) - 1);
+        BiomeCell biome;
+        List<BiomeCell> biomes = new List<BiomeCell>();
 
-        List<Biome> closeBiomes = new List<Biome>();
-        List<float> floats = new List<float>();
-        foreach(Biome biome in biomes)
+        for(int i = -1;i < 2; i++)
         {
-            float distDif = Mathf.Abs(GetDist(x, z, biome) - closestDist);
-            if (distDif < interpDist)
+            for(int j = -1; j < 2; j++)
             {
-                closeBiomes.Add(biome);
-                floats.Add(distDif);
+                Vector2Int pos = new Vector2Int((xIndex + i), (yIndex + j));
+                if (biomeDict.TryGetValue(pos, out biome))
+                {
+                    biomes.Add(biome);
+                }
+                else
+                {
+                    biomes.Add(new BiomeCell(pos * size, MapManager.biomeData[BiomeType.forest]));
+                }
             }
         }
-        if (closeBiomes.Count <= 1) return closestBiome;
-
-        float t = floats.Sum() / (floats.Count()-1);
         
-        for(int i = 0; i < floats.Count; i++)
-        {
-            floats[i] = (t - floats[i]) / t;
-        }
-        temp.lacunarity = 0;
-        for (int i = 0; i < floats.Count; i++)
-        {
-            temp.lacunarity += floats[i] * closeBiomes[i].lacunarity;
-        }
-        temp.persistance = 0;
-        for (int i = 0; i < floats.Count; i++)
-        {
-            temp.persistance += floats[i] * closeBiomes[i].persistance;
-        }
-        temp.scale = 0;
-        for (int i = 0; i < floats.Count; i++)
-        {
-            temp.scale += floats[i] * closeBiomes[i].scale;
-        }
-        temp.mult = 0;
-        for (int i = 0; i < floats.Count; i++)
-        {
-            temp.mult += floats[i] * closeBiomes[i].mult;
-        }
-        temp.heightOffset = 0;
-        for (int i = 0; i < floats.Count; i++)
-        {
-            temp.heightOffset += floats[i] * closeBiomes[i].heightOffset;
-        }
-        return temp;
+        return biomes;
     }
-    */
-    float GetDist(float x, float z, Biome biome)
+    float GetDist(float x, float z, BiomeCell biome)
     {
         float dist = new Vector2(x - biome.x, z-biome.z).magnitude;
         return dist;
