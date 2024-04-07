@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6ec35809d3795498a7a45351c407bc, type: 3}
   m_Name: Plains
   m_EditorClassIdentifier: 
-  octaves: 10
-  lacunarity: 1.2
+  octaves: 3
+  lacunarity: 1.9
   persistance: 0.5
   scale: 100
   mult: 4

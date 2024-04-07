@@ -15,7 +15,7 @@ MonoBehaviour:
   octaves: 10
   lacunarity: 1
   persistance: 1
-  scale: 1
+  scale: 10
   mult: 1
   heightOffset: 0
   gradient:
@@ -48,5 +48,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  x: -50
-  z: 86
+  x: 100
+  z: 100
+  foliage: []
+  foliageMult: 0

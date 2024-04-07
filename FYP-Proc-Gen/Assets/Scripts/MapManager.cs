@@ -18,7 +18,7 @@ public class MapManager : MonoBehaviour
 
     Dictionary<Vector2Int, Chunk> chunks;
 
-    List<Road> roads;
+    
     List<Location> locations;
 
     public GameObject test;
@@ -30,7 +30,6 @@ public class MapManager : MonoBehaviour
         seed = new Seed();
         noiseMap = new NoiseMap(seed, biomes);
         chunks = new Dictionary<Vector2Int, Chunk>();
-        roads = new List<Road>();
         locations = new List<Location>();
     }
     void Start()
@@ -38,6 +37,8 @@ public class MapManager : MonoBehaviour
         //locations.Add(new TestLocation(new Vector2Int(100, 100), test));
         //locations.Add(new Road(new Vector2Int(50, 50), new Vector2Int(100, 100), Color.gray));
         locations.Add(new River(new Vector2Int(200, 200), new Vector2Int(100, 100), water));
+
+
         StartCoroutine(GenerateChunk(Vector2Int.zero));
 
         

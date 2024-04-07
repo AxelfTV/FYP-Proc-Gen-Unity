@@ -37,7 +37,7 @@ public class NoiseMap
                 floats.Add(distDif);
             }
         }
-        if (closeBiomes.Count <= 1) return GetBiomeNoise(x, z, tempBiome);
+        if (closeBiomes.Count <= 1) return GetBiomeNoise(x, z, closestBiome);
         
         
         float noiseSum = 0;
